@@ -54,7 +54,7 @@ eleven_client = ElevenLabs(
     api_key=os.getenv("ELEVENLABS_API_KEY")
 )
 
-ELEVENLABS_VOICE_ID = ""
+ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 
 
 # -------------------------
