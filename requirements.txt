@@ -5,3 +5,4 @@ pydantic
 google-genai
 elevenlabs
 python-dotenv
+openai
