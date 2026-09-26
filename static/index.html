@@ -49,6 +49,7 @@ body{
 /* -------------------------
    HEADER
 ------------------------- */
+
 header{
     position:absolute;
     top:0;
@@ -93,6 +94,7 @@ header{
 /* -------------------------
    MAIN
 ------------------------- */
+
 .main{
     position:absolute;
     top:66px;
@@ -108,6 +110,7 @@ header{
 /* -------------------------
    CIRCULAR JARVIS HUD
 ------------------------- */
+
 .reactor{
     position:relative;
     width:min(70vh,70vw,720px);
@@ -120,7 +123,6 @@ header{
     background:transparent;
 }
 
-/* soft halo */
 .reactor::before{
     content:"";
     position:absolute;
@@ -134,7 +136,6 @@ header{
     pointer-events:none;
 }
 
-/* subtle technical glow */
 .reactor::after{
     content:"";
     position:absolute;
@@ -153,7 +154,6 @@ header{
     pointer-events:none;
 }
 
-/* outer shell */
 .hud-disc{
     position:absolute;
     inset:4%;
@@ -168,7 +168,6 @@ header{
     animation:outerSpin 28s linear infinite;
 }
 
-/* bright outer rim */
 .hud-disc::before{
     content:"";
     position:absolute;
@@ -178,7 +177,6 @@ header{
     box-shadow:0 0 7px rgba(81,231,243,.14);
 }
 
-/* segmented technical outer rim */
 .hud-disc::after{
     content:"";
     position:absolute;
@@ -197,7 +195,6 @@ header{
     animation:slowSpinReverse 42s linear infinite;
 }
 
-/* old ring elements become clean concentric rings */
 .ring{
     position:absolute;
     left:50%;
@@ -233,7 +230,6 @@ header{
     animation:slowSpin 14s linear infinite;
 }
 
-/* Tick marks around the outer/inner rings */
 .tick-ring{
     position:absolute;
     left:50%;
@@ -273,7 +269,6 @@ header{
     animation:slowSpin 22s linear infinite;
 }
 
-/* arcs: curved, technical, no bush-like lines */
 .arc{
     position:absolute;
     left:50%;
@@ -311,7 +306,6 @@ header{
     animation:arcRotate 8s linear infinite;
 }
 
-/* central glass disc */
 .core{
     position:relative;
     width:49%;
@@ -333,7 +327,6 @@ header{
     overflow:hidden;
 }
 
-/* technical inner texture */
 .core::before{
     content:"";
     position:absolute;
@@ -351,7 +344,6 @@ header{
     animation:slowSpin 26s linear infinite;
 }
 
-/* center glow */
 .core::after{
     content:"";
     position:absolute;
@@ -363,7 +355,6 @@ header{
     animation:centerGlow 2.6s ease-in-out infinite;
 }
 
-/* Keep existing child effects subtle and circular */
 .core-shell{
     position:absolute;
     left:50%;
@@ -443,7 +434,6 @@ header{
     z-index:6;
 }
 
-/* central reactor light */
 .core-energy{
     position:absolute;
     left:50%;
@@ -480,7 +470,6 @@ header{
     display:none;
 }
 
-/* JARVIS lettering in the center */
 .core-title{
     position:absolute;
     left:50%;
@@ -500,7 +489,6 @@ header{
     white-space:nowrap;
 }
 
-/* Tiny technical readouts */
 .core-readout{
     position:absolute;
     left:50%;
@@ -513,7 +501,6 @@ header{
     white-space:nowrap;
 }
 
-/* Old random particles are disabled */
 .core-particle{
     display:none!important;
 }
@@ -537,6 +524,7 @@ header{
 /* -------------------------
    SIDE STATUS
 ------------------------- */
+
 .status{
     position:absolute;
     left:28px;
@@ -570,6 +558,7 @@ header{
 /* -------------------------
    COMMAND PANEL
 ------------------------- */
+
 .chat-panel{
     position:absolute;
     right:28px;
@@ -673,8 +662,32 @@ button:disabled{
 }
 
 /* -------------------------
+   LISTENING VISUAL STATE
+------------------------- */
+
+body.listening .core-energy{
+    animation:
+        energyPulse 1s ease-in-out infinite,
+        listeningGlow 1.2s ease-in-out infinite;
+}
+
+body.listening .core-title{
+    text-shadow:
+        0 0 6px rgba(218,253,255,1),
+        0 0 18px rgba(66,218,235,.8),
+        0 0 35px rgba(66,218,235,.45);
+}
+
+body.speaking .core-energy{
+    animation:
+        energyPulse .75s ease-in-out infinite,
+        listeningGlow .9s ease-in-out infinite;
+}
+
+/* -------------------------
    FOOTER
 ------------------------- */
+
 footer{
     position:absolute;
     bottom:0;
@@ -694,6 +707,7 @@ footer{
 /* -------------------------
    ANIMATIONS
 ------------------------- */
+
 @keyframes slowSpin{
     from{transform:translate(-50%,-50%) rotate(0deg)}
     to{transform:translate(-50%,-50%) rotate(360deg)}
@@ -759,12 +773,19 @@ footer{
     50%{opacity:1}
 }
 
+@keyframes listeningGlow{
+    0%,100%{filter:brightness(1)}
+    50%{filter:brightness(1.5)}
+}
+
 @media(max-width:900px){
     .status{display:none}
+
     .reactor{
         width:min(78vw,78vh,620px);
         height:min(78vw,78vh,620px);
     }
+
     .chat-panel{
         right:14px;
         bottom:40px;
@@ -774,12 +795,22 @@ footer{
 
 @media(max-width:600px){
     header{padding:0 16px}
-    .logo{font-size:16px;letter-spacing:5px}
-    .online{font-size:7px;letter-spacing:2px}
+
+    .logo{
+        font-size:16px;
+        letter-spacing:5px;
+    }
+
+    .online{
+        font-size:7px;
+        letter-spacing:2px;
+    }
+
     .reactor{
         width:94vw;
         height:94vw;
     }
+
     .chat-panel{
         left:12px;
         right:12px;
@@ -797,7 +828,6 @@ footer{
 
 <header>
 
-```
 <div class="logo">
     J.A.R.V.I.S.
 </div>
@@ -805,7 +835,6 @@ footer{
 <div class="online">
     SYSTEM ONLINE
 </div>
-```
 
 </header>
 
@@ -813,15 +842,17 @@ footer{
 
 <div class="status">
 
-```
 <div class="status-box">
     <div class="status-title">
         CORE
     </div>
 
-    <div class="status-value">
-        ONLINE
-    </div>
+```
+<div class="status-value">
+    ONLINE
+</div>
+```
+
 </div>
 
 <div class="status-box">
@@ -829,9 +860,12 @@ footer{
         AI ENGINE
     </div>
 
-    <div class="status-value">
-        GEMINI
-    </div>
+```
+<div class="status-value">
+    OPENROUTER
+</div>
+```
+
 </div>
 
 <div class="status-box">
@@ -839,9 +873,12 @@ footer{
         VOICE ENGINE
     </div>
 
-    <div class="status-value">
-        ELEVENLABS / BROWSER
-    </div>
+```
+<div class="status-value">
+    ELEVENLABS / BROWSER
+</div>
+```
+
 </div>
 
 <div class="status-box">
@@ -849,56 +886,64 @@ footer{
         MEMORY
     </div>
 
-    <div class="status-value">
-        ACTIVE
-    </div>
+```
+<div class="status-value">
+    ACTIVE
 </div>
 ```
+
+</div>
 
 </div>
 
 <div class="reactor">
 
-    <div class="hud-disc"></div>
+```
+<div class="hud-disc"></div>
 
-    <div class="tick-ring"></div>
-    <div class="tick-ring inner"></div>
+<div class="tick-ring"></div>
+<div class="tick-ring inner"></div>
 
-    <div class="ring one"></div>
-    <div class="ring two"></div>
-    <div class="ring three"></div>
+<div class="ring one"></div>
+<div class="ring two"></div>
+<div class="ring three"></div>
 
-    <div class="arc a"></div>
-    <div class="arc b"></div>
-    <div class="arc c"></div>
+<div class="arc a"></div>
+<div class="arc b"></div>
+<div class="arc c"></div>
 
-    <div class="core">
+<div class="core">
 
-        <div class="core-shell"></div>
-        <div class="core-shell two"></div>
-        <div class="core-shell three"></div>
+    <div class="core-shell"></div>
+    <div class="core-shell two"></div>
+    <div class="core-shell three"></div>
 
-        <div class="core-data"></div>
+    <div class="core-data"></div>
 
-        <div class="core-machine"></div>
-        <div class="machine-inner"></div>
+    <div class="core-machine"></div>
+    <div class="machine-inner"></div>
 
-        <div class="core-cage"></div>
+    <div class="core-cage"></div>
 
-        <div class="core-energy"></div>
+    <div class="core-energy"></div>
 
-        <div class="core-title">J.A.R.V.I.S.</div>
-        <div class="core-readout">PERSONAL ARTIFICIAL INTELLIGENCE SYSTEM</div>
+    <div class="core-title">J.A.R.V.I.S.</div>
 
+    <div class="core-readout">
+        PERSONAL ARTIFICIAL INTELLIGENCE SYSTEM
     </div>
 
-    <div class="label">JARVIS CORE</div>
+</div>
+
+<div class="label">
+    JARVIS CORE
+</div>
+```
 
 </div>
 
 <div class="chat-panel">
 
-```
 <div class="panel-title">
     COMMAND INTERFACE
 </div>
@@ -909,29 +954,35 @@ footer{
 
 <div class="input-area">
 
-    <input
-        id="message"
-        type="text"
-        placeholder="Talk to JARVIS..."
-    >
+```
+<input
+    id="message"
+    type="text"
+    placeholder="Talk to JARVIS..."
+>
 
-    <button
-        id="sendButton"
-        onclick="sendMessage()"
-    >
-        SEND
-    </button>
+<button
+    id="sendButton"
+    onclick="sendMessage()"
+>
+    SEND
+</button>
+```
 
 </div>
 
 <button
-    id="micButton"
-    class="mic"
-    onclick="toggleListening()"
+id="micButton"
+class="mic"
+onclick="toggleListening()"
+
 >
-    🎙 SPEAK
-</button>
+
 ```
+🎙 SPEAK
+```
+
+</button>
 
 </div>
 
@@ -952,38 +1003,27 @@ let speaking = false;
 let waitingForCommand = false;
 let processingCommand = false;
 let manuallyStopped = true;
+
 let restartTimer = null;
+let commandTimer = null;
 
-const responseBox =
-    document.getElementById("response");
-
-const messageInput =
-    document.getElementById("message");
-
-const micButton =
-    document.getElementById("micButton");
-
-const sendButton =
-    document.getElementById("sendButton");
+const responseBox = document.getElementById("response");
+const messageInput = document.getElementById("message");
+const micButton = document.getElementById("micButton");
+const sendButton = document.getElementById("sendButton");
 
 
-/* -------------------------
-   Fetch With Timeout
-------------------------- */
+/* =========================
+   FETCH TIMEOUT
+========================= */
 
-async function fetchWithTimeout(
-    url,
-    options = {},
-    timeout = 30000
-) {
+async function fetchWithTimeout(url, options = {}, timeout = 30000) {
 
-    const controller =
-        new AbortController();
+    const controller = new AbortController();
 
-    const timer =
-        setTimeout(() => {
-            controller.abort();
-        }, timeout);
+    const timer = setTimeout(() => {
+        controller.abort();
+    }, timeout);
 
     try {
 
@@ -992,9 +1032,7 @@ async function fetchWithTimeout(
             signal: controller.signal
         });
 
-    }
-
-    finally {
+    } finally {
 
         clearTimeout(timer);
 
@@ -1003,20 +1041,17 @@ async function fetchWithTimeout(
 }
 
 
-/* -------------------------
-   Browser Voice
-------------------------- */
+/* =========================
+   BROWSER VOICE
+========================= */
 
 function speakWithBrowser(text) {
 
     return new Promise((resolve) => {
 
         if (!("speechSynthesis" in window)) {
-
             resolve();
-
             return;
-
         }
 
         window.speechSynthesis.cancel();
@@ -1036,21 +1071,18 @@ function speakWithBrowser(text) {
             voices.find(
                 voice =>
                     voice.lang &&
-                    voice.lang
-                        .toLowerCase()
-                        .startsWith("en-gb")
+                    voice.lang.toLowerCase().startsWith("en-gb")
             );
 
         if (britishVoice) {
-
-            utterance.voice =
-                britishVoice;
-
+            utterance.voice = britishVoice;
         }
 
         utterance.onstart = function() {
 
             speaking = true;
+
+            stopRecognition();
 
             updateMicButton();
 
@@ -1063,6 +1095,15 @@ function speakWithBrowser(text) {
             updateMicButton();
 
             resolve();
+
+            if (
+                !manuallyStopped &&
+                !processingCommand
+            ) {
+
+                startWakeListening();
+
+            }
 
         };
 
@@ -1079,6 +1120,15 @@ function speakWithBrowser(text) {
 
             resolve();
 
+            if (
+                !manuallyStopped &&
+                !processingCommand
+            ) {
+
+                startWakeListening();
+
+            }
+
         };
 
         window.speechSynthesis.speak(
@@ -1090,15 +1140,15 @@ function speakWithBrowser(text) {
 }
 
 
-/* -------------------------
-   Voice Engine
-------------------------- */
+/* =========================
+   SPEAK
+========================= */
 
 async function speakText(text) {
 
     try {
 
-        const audioResponse =
+        const response =
             await fetchWithTimeout(
                 "/speak",
                 {
@@ -1116,7 +1166,7 @@ async function speakText(text) {
                 30000
             );
 
-        if (!audioResponse.ok) {
+        if (!response.ok) {
 
             console.log(
                 "ElevenLabs unavailable. Using browser voice."
@@ -1128,54 +1178,46 @@ async function speakText(text) {
 
         }
 
-        const audioBlob =
-            await audioResponse.blob();
+        const blob =
+            await response.blob();
 
         const audioURL =
-            URL.createObjectURL(audioBlob);
+            URL.createObjectURL(blob);
 
         const audio =
             new Audio(audioURL);
 
         speaking = true;
 
+        stopRecognition();
+
         updateMicButton();
 
         await new Promise((resolve) => {
 
-            let finished = false;
-
-            function finish() {
-
-                if (finished) {
-                    return;
-                }
-
-                finished = true;
-
-                URL.revokeObjectURL(
-                    audioURL
-                );
+            audio.onended = function() {
 
                 speaking = false;
+
+                URL.revokeObjectURL(audioURL);
 
                 updateMicButton();
 
                 resolve();
 
-            }
-
-            audio.onended = finish;
+            };
 
             audio.onerror = async function() {
 
-                console.log(
-                    "ElevenLabs playback failed. Using browser voice."
-                );
+                speaking = false;
 
-                finish();
+                URL.revokeObjectURL(audioURL);
+
+                updateMicButton();
 
                 await speakWithBrowser(text);
+
+                resolve();
 
             };
 
@@ -1187,9 +1229,15 @@ async function speakText(text) {
                         error
                     );
 
-                    finish();
+                    speaking = false;
+
+                    URL.revokeObjectURL(audioURL);
+
+                    updateMicButton();
 
                     await speakWithBrowser(text);
+
+                    resolve();
 
                 }
             );
@@ -1201,7 +1249,7 @@ async function speakText(text) {
     catch (error) {
 
         console.log(
-            "ElevenLabs unavailable. Using browser voice:",
+            "ElevenLabs unavailable:",
             error
         );
 
@@ -1212,9 +1260,9 @@ async function speakText(text) {
 }
 
 
-/* -------------------------
-   Open Website
-------------------------- */
+/* =========================
+   OPEN WEBSITE
+========================= */
 
 async function openWebsite(message) {
 
@@ -1250,24 +1298,17 @@ async function openWebsite(message) {
     };
 
     if (!lowerMessage.startsWith("open ")) {
-
         return false;
-
     }
 
     const siteName =
         lowerMessage.substring(5).trim();
 
     if (!websites[siteName]) {
-
         return false;
-
     }
 
-    let displayName =
-        siteName;
-
-    const names = {
+    const displayNames = {
 
         "youtube": "YouTube",
         "google": "Google",
@@ -1280,12 +1321,8 @@ async function openWebsite(message) {
 
     };
 
-    if (names[siteName]) {
-
-        displayName =
-            names[siteName];
-
-    }
+    const displayName =
+        displayNames[siteName];
 
     responseBox.innerText =
         "JARVIS: Opening " +
@@ -1298,22 +1335,21 @@ async function openWebsite(message) {
         "."
     );
 
-    processingCommand = false;
-
-    sendButton.disabled = false;
-
-    updateMicButton();
-
     window.open(
         websites[siteName],
         "_blank",
         "noopener,noreferrer"
     );
 
+    processingCommand = false;
+    waitingForCommand = false;
+
+    sendButton.disabled = false;
+
+    updateMicButton();
+
     if (!manuallyStopped) {
-
-        scheduleListening();
-
+        startWakeListening();
     }
 
     return true;
@@ -1321,25 +1357,21 @@ async function openWebsite(message) {
 }
 
 
-/* -------------------------
-   Chat
-------------------------- */
+/* =========================
+   SEND MESSAGE
+========================= */
 
 async function sendMessage() {
 
     if (processingCommand) {
-
         return;
-
     }
 
     const message =
         messageInput.value.trim();
 
     if (!message) {
-
         return;
-
     }
 
     processingCommand = true;
@@ -1348,11 +1380,11 @@ async function sendMessage() {
 
     stopRecognition();
 
+    clearTimeout(commandTimer);
+
     if (await openWebsite(message)) {
 
         messageInput.value = "";
-
-        waitingForCommand = false;
 
         return;
 
@@ -1405,22 +1437,21 @@ async function sendMessage() {
             "JARVIS: " +
             data.response;
 
+        messageInput.value = "";
+
         await speakText(
             data.response
         );
 
-        waitingForCommand = false;
-
         processingCommand = false;
+        waitingForCommand = false;
 
         sendButton.disabled = false;
 
         updateMicButton();
 
         if (!manuallyStopped) {
-
-            scheduleListening();
-
+            startWakeListening();
         }
 
     }
@@ -1433,10 +1464,8 @@ async function sendMessage() {
         );
 
         speaking = false;
-
-        waitingForCommand = false;
-
         processingCommand = false;
+        waitingForCommand = false;
 
         sendButton.disabled = false;
 
@@ -1457,9 +1486,7 @@ async function sendMessage() {
         updateMicButton();
 
         if (!manuallyStopped) {
-
-            scheduleListening();
-
+            startWakeListening();
         }
 
     }
@@ -1467,9 +1494,9 @@ async function sendMessage() {
 }
 
 
-/* -------------------------
-   Speech Recognition
-------------------------- */
+/* =========================
+   CREATE SPEECH RECOGNITION
+========================= */
 
 function createRecognition() {
 
@@ -1498,6 +1525,10 @@ function createRecognition() {
     recognizer.maxAlternatives = 1;
 
 
+    /* =========================
+       START
+    ========================= */
+
     recognizer.onstart = function() {
 
         listening = true;
@@ -1508,29 +1539,26 @@ function createRecognition() {
 
         updateMicButton();
 
-        if (
-            !speaking &&
-            !processingCommand
-        ) {
+        if (waitingForCommand) {
 
-            if (waitingForCommand) {
+            responseBox.innerText =
+                "JARVIS is listening for your command...";
 
-                responseBox.innerText =
-                    "JARVIS is listening for your command...";
+        }
 
-            }
+        else {
 
-            else {
-
-                responseBox.innerText =
-                    'JARVIS is listening... Say "Jarvis"';
-
-            }
+            responseBox.innerText =
+                'JARVIS is listening... Say "Jarvis".';
 
         }
 
     };
 
+
+    /* =========================
+       RESULT
+    ========================= */
 
     recognizer.onresult = function(event) {
 
@@ -1538,33 +1566,25 @@ function createRecognition() {
             !event.results ||
             !event.results.length
         ) {
-
             return;
-
         }
 
         const result =
-            event.results[
-                event.results.length - 1
-            ];
+            event.results[0];
 
         if (!result || !result[0]) {
-
             return;
-
         }
 
         const text =
             result[0].transcript.trim();
 
         if (!text) {
-
             return;
-
         }
 
         console.log(
-            "Heard:",
+            "JARVIS heard:",
             text
         );
 
@@ -1572,74 +1592,177 @@ function createRecognition() {
             text.toLowerCase();
 
 
+        /* =========================
+           WAITING FOR WAKE WORD
+        ========================= */
+
         if (!waitingForCommand) {
 
-            if (
-                lowerText.includes("jarvis")
-            ) {
+            /*
+               Detect:
+               Jarvis
+               jar vis
+               jarvys
+            */
 
-                waitingForCommand = true;
+            const wakeMatch =
+                lowerText.match(
+                    /\bjarvis\b|\bjar\s+vis\b|\bjarvys\b/
+                );
 
-                let command =
-                    text;
+            if (!wakeMatch) {
 
-                const index =
-                    lowerText.indexOf(
-                        "jarvis"
-                    );
+                /*
+                   Ignore everything that
+                   isn't the wake word.
+                */
 
-                if (index !== -1) {
-
-                    command =
-                        text.substring(
-                            index +
-                            "jarvis".length
-                        ).trim();
-
-                }
-
-                responseBox.innerText =
-                    "JARVIS is listening for your command...";
-
-                if (command) {
-
-                    messageInput.value =
-                        command;
-
-                    sendMessage();
-
-                }
-                else {
-
-                    stopRecognition();
-
-                    setTimeout(
-                        startListening,
-                        300
-                    );
-
-                }
-
-            }
-            else {
-
-                responseBox.innerText =
-                    'JARVIS heard you. Say "Jarvis".';
+                return;
 
             }
 
+
+            /*
+               WAKE WORD FOUND
+            */
+
+            console.log(
+                "JARVIS WAKE WORD DETECTED"
+            );
+
+            waitingForCommand = true;
+
+            responseBox.innerText =
+                "JARVIS activated. Listening for your command...";
+
+
+            /*
+               Remove "Jarvis" from the
+               same sentence.
+            */
+
+            let command =
+                text
+                    .replace(
+                        /\bjarvis\b/ig,
+                        ""
+                    )
+                    .replace(
+                        /\bjar\s+vis\b/ig,
+                        ""
+                    )
+                    .replace(
+                        /\bjarvys\b/ig,
+                        ""
+                    )
+                    .trim();
+
+
+            /*
+               If user said:
+
+               "Jarvis open YouTube"
+
+               execute immediately.
+            */
+
+            if (command) {
+
+                clearTimeout(commandTimer);
+
+                messageInput.value =
+                    command;
+
+                stopRecognition();
+
+                sendMessage();
+
+                return;
+
+            }
+
+
+            /*
+               User only said "Jarvis".
+
+               The current recognition session
+               is finished, so start a NEW
+               recognition session specifically
+               for the command.
+            */
+
+            stopRecognition();
+
+            clearTimeout(commandTimer);
+
+
+            commandTimer =
+                setTimeout(
+                    function() {
+
+                        if (
+                            waitingForCommand &&
+                            !processingCommand &&
+                            !manuallyStopped
+                        ) {
+
+                            waitingForCommand =
+                                false;
+
+                            responseBox.innerText =
+                                'JARVIS: No command heard. Say "Jarvis" again.';
+
+                            startWakeListening();
+
+                        }
+
+                    },
+                    8000
+                );
+
+
+            setTimeout(
+                function() {
+
+                    if (
+                        waitingForCommand &&
+                        !processingCommand &&
+                        !manuallyStopped &&
+                        !listening
+                    ) {
+
+                        startCommandListening();
+
+                    }
+
+                },
+                400
+            );
+
+            return;
+
         }
-        else {
 
-            messageInput.value =
-                text;
 
-            sendMessage();
+        /* =========================
+           COMMAND RESULT
+        ========================= */
 
-        }
+        clearTimeout(commandTimer);
+
+        messageInput.value =
+            text;
+
+        stopRecognition();
+
+        sendMessage();
 
     };
 
+
+    /* =========================
+       ERROR
+    ========================= */
 
     recognizer.onerror = function(event) {
 
@@ -1662,10 +1785,12 @@ function createRecognition() {
             event.error === "service-not-allowed"
         ) {
 
-            responseBox.innerText =
-                "JARVIS: Microphone permission was denied.";
-
             manuallyStopped = true;
+
+            waitingForCommand = false;
+
+            responseBox.innerText =
+                "JARVIS: Microphone permission is blocked. Click SPEAK once and allow microphone access.";
 
             return;
 
@@ -1673,18 +1798,8 @@ function createRecognition() {
 
 
         if (
-            event.error === "no-speech"
+            event.error === "aborted"
         ) {
-
-            if (
-                !manuallyStopped &&
-                !speaking &&
-                !processingCommand
-            ) {
-
-                scheduleListening();
-
-            }
 
             return;
 
@@ -1697,12 +1812,26 @@ function createRecognition() {
             !processingCommand
         ) {
 
-            scheduleListening();
+            if (waitingForCommand) {
+
+                startCommandListening();
+
+            }
+
+            else {
+
+                startWakeListening();
+
+            }
 
         }
 
     };
 
+
+    /* =========================
+       END
+    ========================= */
 
     recognizer.onend = function() {
 
@@ -1715,13 +1844,33 @@ function createRecognition() {
         updateMicButton();
 
 
+        /*
+           IMPORTANT:
+
+           If the wake-word session ended,
+           restart wake listening.
+
+           If the command session ended,
+           restart command listening.
+        */
+
         if (
             !manuallyStopped &&
             !speaking &&
             !processingCommand
         ) {
 
-            scheduleListening();
+            if (waitingForCommand) {
+
+                startCommandListening();
+
+            }
+
+            else {
+
+                startWakeListening();
+
+            }
 
         }
 
@@ -1733,37 +1882,27 @@ function createRecognition() {
 }
 
 
-/* -------------------------
-   Listening Control
-------------------------- */
+/* =========================
+   WAKE LISTENING
+========================= */
 
-function scheduleListening() {
+function startWakeListening() {
 
     if (manuallyStopped) {
-
         return;
-
     }
 
     if (speaking) {
-
         return;
-
     }
 
     if (processingCommand) {
-
         return;
-
     }
 
-    if (restartTimer) {
+    waitingForCommand = false;
 
-        clearTimeout(
-            restartTimer
-        );
-
-    }
+    clearTimeout(restartTimer);
 
     restartTimer =
         setTimeout(
@@ -1771,39 +1910,72 @@ function scheduleListening() {
 
                 restartTimer = null;
 
-                startListening();
+                startRecognition();
 
             },
-            500
+            150
         );
 
 }
 
 
-function startListening() {
+/* =========================
+   COMMAND LISTENING
+========================= */
+
+function startCommandListening() {
+
+    if (manuallyStopped) {
+        return;
+    }
 
     if (speaking) {
-
         return;
-
     }
 
     if (processingCommand) {
-
         return;
-
     }
 
+    waitingForCommand = true;
+
+    clearTimeout(restartTimer);
+
+    restartTimer =
+        setTimeout(
+            function() {
+
+                restartTimer = null;
+
+                startRecognition();
+
+            },
+            150
+        );
+
+}
+
+
+/* =========================
+   START RECOGNITION
+========================= */
+
+function startRecognition() {
+
     if (manuallyStopped) {
-
         return;
+    }
 
+    if (speaking) {
+        return;
+    }
+
+    if (processingCommand) {
+        return;
     }
 
     if (listening) {
-
         return;
-
     }
 
     if (!recognition) {
@@ -1812,9 +1984,7 @@ function startListening() {
             createRecognition();
 
         if (!recognition) {
-
             return;
-
         }
 
     }
@@ -1838,10 +2008,19 @@ function startListening() {
 
         if (!manuallyStopped) {
 
-            setTimeout(
-                startListening,
-                1000
+            clearTimeout(
+                restartTimer
             );
+
+            restartTimer =
+                setTimeout(
+                    function() {
+
+                        startRecognition();
+
+                    },
+                    700
+                );
 
         }
 
@@ -1850,19 +2029,27 @@ function startListening() {
 }
 
 
+/* =========================
+   STOP RECOGNITION
+========================= */
+
 function stopRecognition() {
 
-    if (restartTimer) {
+    clearTimeout(
+        restartTimer
+    );
 
-        clearTimeout(
-            restartTimer
-        );
-
-        restartTimer = null;
-
-    }
+    restartTimer = null;
 
     if (!recognition) {
+
+        listening = false;
+
+        document.body.classList.remove(
+            "listening"
+        );
+
+        updateMicButton();
 
         return;
 
@@ -1877,7 +2064,7 @@ function stopRecognition() {
     catch (error) {
 
         console.log(
-            "Recognition stop error:",
+            "Recognition stop:",
             error
         );
 
@@ -1894,45 +2081,65 @@ function stopRecognition() {
 }
 
 
-/* -------------------------
-   Microphone Button
-------------------------- */
+/* =========================
+   MICROPHONE BUTTON
+========================= */
 
 function toggleListening() {
 
     if (speaking) {
-
         return;
-
     }
 
-    if (listening) {
+
+    /*
+       TURN OFF
+    */
+
+    if (!manuallyStopped) {
 
         manuallyStopped = true;
 
         waitingForCommand = false;
+
+        clearTimeout(commandTimer);
+        clearTimeout(restartTimer);
 
         stopRecognition();
 
         responseBox.innerText =
             "JARVIS microphone is OFF.";
 
+        updateMicButton();
+
         return;
 
     }
+
+
+    /*
+       TURN ON
+    */
 
     manuallyStopped = false;
 
     waitingForCommand = false;
 
-    startListening();
+    clearTimeout(commandTimer);
+
+    responseBox.innerText =
+        'JARVIS is listening... Say "Jarvis".';
+
+    updateMicButton();
+
+    startWakeListening();
 
 }
 
 
-/* -------------------------
-   Button Status
-------------------------- */
+/* =========================
+   BUTTON UI
+========================= */
 
 function updateMicButton() {
 
@@ -1956,12 +2163,45 @@ function updateMicButton() {
 
     if (listening) {
 
-        micButton.innerText =
-            "🛑 STOP LISTENING";
+        if (waitingForCommand) {
+
+            micButton.innerText =
+                "🎙 LISTENING FOR COMMAND";
+
+        }
+
+        else {
+
+            micButton.innerText =
+                "👂 WAITING FOR JARVIS";
+
+        }
 
         return;
 
     }
+
+
+    if (!manuallyStopped) {
+
+        if (waitingForCommand) {
+
+            micButton.innerText =
+                "🎙 STARTING...";
+
+        }
+
+        else {
+
+            micButton.innerText =
+                "👂 STARTING WAKE LISTENER";
+
+        }
+
+        return;
+
+    }
+
 
     micButton.innerText =
         "🎙 SPEAK";
@@ -1969,9 +2209,9 @@ function updateMicButton() {
 }
 
 
-/* -------------------------
-   Enter Key
-------------------------- */
+/* =========================
+   ENTER KEY
+========================= */
 
 messageInput.addEventListener(
     "keydown",
@@ -1989,9 +2229,9 @@ messageInput.addEventListener(
 );
 
 
-/* -------------------------
-   Load
-------------------------- */
+/* =========================
+   PAGE LOAD
+========================= */
 
 window.addEventListener(
     "load",
@@ -2002,15 +2242,28 @@ window.addEventListener(
         );
 
         responseBox.innerText =
-            'JARVIS is starting microphone...';
+            'JARVIS is ready. Say "Jarvis" to activate.';
 
-        setTimeout(function() {
 
-            manuallyStopped = false;
+        /*
+           Automatically try to start
+           the wake-word listener.
+        */
 
-            startListening();
+        setTimeout(
+            function() {
 
-        }, 1000);
+                manuallyStopped =
+                    false;
+
+                waitingForCommand =
+                    false;
+
+                startWakeListening();
+
+            },
+            1000
+        );
 
     }
 );

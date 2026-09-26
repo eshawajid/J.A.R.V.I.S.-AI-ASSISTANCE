@@ -3,11 +3,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from ddgs import DDGS
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from google import genai
+from openai import OpenAI
 from elevenlabs.client import ElevenLabs
 
 from memory import init_db, save_message, get_recent_messages
@@ -41,11 +45,12 @@ def web_search(query):
 
 
 # -------------------------
-# Gemini
+# OpenRouter
 # -------------------------
 
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
+openrouter_client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 
 
@@ -72,6 +77,29 @@ class Message(BaseModel):
 
 
 # -------------------------
+# J.A.R.V.I.S. System Instruction
+# -------------------------
+
+SYSTEM_INSTRUCTION = """You are J.A.R.V.I.S., a personal AI assistant.
+
+Personality:
+
+- Calm, intelligent, professional, and helpful.
+- Speak naturally and concisely.
+- Address the user as Sir when appropriate, but do not overuse it.
+- Do not make jokes or sarcastic comments unless the user clearly asks for humor.
+- Do not mention Tony Stark, Iron Man, the Avengers, or fictional JARVIS unless the user specifically asks about them.
+- Do not exaggerate simple messages.
+- If the user says hello, greet them briefly and naturally.
+- Give useful answers rather than theatrical speeches.
+- When web search results are provided, use them when they are relevant.
+- Do not pretend that you searched the web if the search results are unavailable.
+- For simple questions that do not need current information, answer normally.
+
+You are an actual AI assistant helping the user with questions, tasks, information, and their computer project."""
+
+
+# -------------------------
 # Chat
 # -------------------------
 
@@ -94,36 +122,60 @@ async def chat(data: Message):
 
     conversation += f"\nWeb search results:\n{search_results}\n"
 
-    conversation += f"user: {data.message}\nassistant:"
+    conversation += f"user: {data.message}"
 
-    # Ask Gemini
-    interaction = client.interactions.create(
-        model="gemini-3.6-flash",
-        input=conversation,
-        system_instruction="""You are J.A.R.V.I.S., a personal AI assistant.
-
-Personality:
-- Calm, intelligent, professional, and helpful.
-- Speak naturally and concisely.
-- Address the user as Sir when appropriate, but do not overuse it.
-- Do not make jokes or sarcastic comments unless the user clearly asks for humor.
-- Do not mention Tony Stark, Iron Man, the Avengers, or fictional JARVIS unless the user specifically asks about them.
-- Do not exaggerate simple messages.
-- If the user says hello, greet them briefly and naturally.
-- Give useful answers rather than theatrical speeches.
-- When web search results are provided, use them when they are relevant.
-- Do not pretend that you searched the web if the search results are unavailable.
-- For simple questions that do not need current information, answer normally.
-
-You are an actual AI assistant helping the user with questions, tasks, information, and their computer project."""
+    # Ask OpenRouter
+    response = openrouter_client.chat.completions.create(
+        model="openrouter/free",
+        messages=[
+            {
+                "role": "system",
+                "content": SYSTEM_INSTRUCTION
+            },
+            {
+                "role": "user",
+                "content": conversation
+            }
+        ]
     )
 
-    response = interaction.output_text
+    response_text = response.choices[0].message.content
 
     # Save JARVIS response
-    save_message("assistant", response)
+    save_message("assistant", response_text)
 
-    return {"response": response}
+    return {"response": response_text}
+
+
+# -------------------------
+# OpenRouter Test
+# -------------------------
+
+@app.get("/openrouter-test")
+async def openrouter_test():
+
+    try:
+        response = openrouter_client.chat.completions.create(
+            model="openrouter/free",
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Reply with exactly: JARVIS ONLINE"
+                }
+            ]
+        )
+
+        return {
+            "success": True,
+            "response": response.choices[0].message.content
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "error_type": type(e).__name__,
+            "error_details": repr(e)
+        }
 
 
 # -------------------------
