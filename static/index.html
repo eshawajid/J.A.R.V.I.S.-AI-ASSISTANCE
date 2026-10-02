@@ -2130,6 +2130,31 @@ function createRecognition(sessionId) {
                 event.error === "aborted"
             ) {
 
+                /*
+                   Chrome can report "aborted" on live HTTPS
+                   sessions even when the microphone is available.
+                   Give the recognizer a fresh session instead of
+                   leaving the SPEAK listener stuck.
+                */
+
+                if (
+                    !manuallyStopped &&
+                    !speaking &&
+                    !processingCommand
+                ) {
+
+                    if (waitingForCommand) {
+
+                        scheduleCommandRestart();
+
+                    } else {
+
+                        scheduleWakeRestart();
+
+                    }
+
+                }
+
                 return;
 
             }
